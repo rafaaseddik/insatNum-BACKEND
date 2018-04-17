@@ -14,6 +14,8 @@ var UtilisateurSchema = new Schema({
     type:{type:String,enum:['ETUDIANT','ENSEIGNANT','EMPLOYE']},
     ens_grade:String,
     ens_type_contrat:{type:String,enum:['CONTRACTUEL','VACATAIRE','EXPERT','AUTRE']},
+    ens_departement:{type:Schema.Types.ObjectId,ref:"Departement"},
+    ens_liste_matiere:{type:Schema.Types.ObjectId,ref:"Matiere"},
     etu_num_inscription:Number,
     etu_annee_admission:Number,
     empl_poste:String
