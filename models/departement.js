@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 var DepartementSchema = new Schema({
     nom:String,
     chef_departement:{type:Schema.Types.ObjectId,ref:"Utilisateur"},
-    enseignants : [{type:Schema.Types.ObjectId,ref:"Utilisateur"}],
-    liste_matieres : [{type:Schema.Types.ObjectId,ref:"Matiere"}]
+    enseignants : [{type:Schema.Types.ObjectId,ref:"Utilisateur",default:[]}],
+    liste_matieres : [{type:Schema.Types.ObjectId,ref:"Matiere",default:[]}]
 });
 
 module.exports = {

@@ -23,6 +23,7 @@
     "md5": "^2.2.1",
     "mongo": "^0.1.0",
     "mongoose": "^5.0.13",
+    "mongoose-autopopulate": "^0.6.1",
     "swagger": "^0.7.5"
   },
   "devDependencies": {

@@ -1,14 +1,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-var FiliereSchema = new Schema({
-    libelle:String,
-    niveau:Number,
-    departement:{type:Schema.Types.ObjectId,ref:"Departement"},
-    liste_enseignant:[{type:Schema.Types.ObjectId,ref:"Utilisateur"},]
+var MatiereSchema = new Schema({
+    libelle:String
 });
 
 module.exports = {
-    model:mongoose.model('Filliere',FiliereSchema),
-    schema : FiliereSchema
+    model:mongoose.model('Matiere',MatiereSchema),
+    schema : MatiereSchema
 }

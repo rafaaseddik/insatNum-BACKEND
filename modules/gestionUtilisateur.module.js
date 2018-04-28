@@ -8,7 +8,8 @@ router.get('/all',(req,res)=>{
     let page = Number(req.query.page-1);
     let limit = Number(req.query.limit);
     Utilisateur.find().limit(limit).skip(page*limit).then(result=>{
-        res.json(result);
+        res.json({status:1,
+            data:{users:result}});
     }).catch(err=>res.json({
         status:0,
         error:{
@@ -47,7 +48,7 @@ router.get('/searchUser',(req,res)=>{
         res.json({
         status:1,
         data:{
-            user:result
+            users:result
         }
     });
     }).catch(err=>res.json({
@@ -115,6 +116,7 @@ router.post('/login',(req,res)=>{
 });
 router.post('/subscribe',(req,res)=>{
     let new_user = req.body.user;
+    new_user.mot_de_passe = md5(new_user.mot_de_passe?new_user.mot_de_passe:"db")
     Utilisateur.findUserByEmail(new_user.email,function(err,result){
         if(err){
             handle_error(err,res);
@@ -153,6 +155,7 @@ router.post('/subscribe',(req,res)=>{
 });
 router.post('/update',(req,res)=>{
     let user = req.body.user;
+    user.mot_de_passe = user.mot_de_passe?md5(user.mot_de_passe):undefined;
     Utilisateur.findByIdAndUpdate(user._id,user,{new:true},(err,result)=>{
         if(err){
             handle_error(err,res);
