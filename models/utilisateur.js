@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+var autopopulate = require('mongoose-autopopulate');
 const Schema = mongoose.Schema;
 
 var UtilisateurSchema = new Schema({
@@ -16,12 +17,13 @@ var UtilisateurSchema = new Schema({
     ens_grade:String,
     ens_type_contrat:{type:String,enum:['CONTRACTUEL','VACATAIRE','EXPERT','AUTRE']},
     ens_departement:{type:Schema.Types.ObjectId,ref:"Departement"},
-    ens_liste_matiere:{type:Schema.Types.ObjectId,ref:"Matiere"},
+    ens_liste_matiere:[{type:Schema.Types.ObjectId,ref:"Matiere"}],
     etu_num_inscription:Number,
     etu_annee_admission:Number,
-    etu_filiere:{type:Schema.Types.ObjectId,ref:"filiere"},
+    etu_filiere:{type:Schema.Types.ObjectId,ref:"Filiere",autopopulate:true},
     empl_poste:String
 });
+UtilisateurSchema.plugin(autopopulate);
 //Statics
 UtilisateurSchema.statics.findUserByEmail = function(email,callback){
     return this.find({email:email},callback);

@@ -92,7 +92,7 @@ router.get('/getAllDepartements', (req, res) => {
         .then(result => res.json({
             status: 1,
             data: {
-                matieres: result
+                departements: result
             }
         })).catch(err => res.json({
         status: 0,

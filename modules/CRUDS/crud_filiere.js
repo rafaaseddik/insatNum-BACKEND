@@ -15,23 +15,19 @@ router.post('/create', (req, res) => {
                 data: {
                     filiere: obj
                 }
-            }).catch(err => res.json({
-                status: 0,
-                error: {
-                    message: err
-                }
-            }))
-        })
-    })
-        .catch(err => res.json({
+            })
+        }).catch(err => res.json({
             status: 0,
             error: {
                 message: err
             }
-        }));
-
-
+        }))
+    })
 });
+
+
+
+
 
 router.post('/update', (req, res) => {
     let filiere = req.body.filiere;
@@ -138,16 +134,22 @@ router.get('/getFiliereByNom', (req, res) => {
 })
 router.post('/addEtudiantToFiliere', (req, res) => {
     var etudiant = req.body.payload.etudiant;
+    console.log(etudiant);
     var filiere = req.body.payload.filiere;
     Etudiant.findOneAndUpdate({_id: etudiant._id}, {etu_filiere: filiere._id}, {new: true})
         .then(result => {
-            var e = Etudiant.findById(result._id).populate("etu_filiere");
-            res.json({
-                status: 1,
-                data: {
-                    result: e
+            console.log(result);
+            var etudiant = Etudiant.findById(result._id).then(
+                e=>{
+                    res.json({
+                        status: 1,
+                        data: {
+                            result: e
+                        }
+                    })
                 }
-            })
+            )
+
         }).catch(err => res.json({
         status: 0,
         error: {

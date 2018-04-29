@@ -114,7 +114,7 @@ router.get('/getConversationByUsers', (req, res) => {
     let user_2_ID = req.query.user_2_ID;
     let page = Number(req.query.page - 1);
     let limit = Number(req.query.limit);
-    Conversation.find({
+    Conversation.findOne({
         $or: [
             {utilisateur_1: user_1_ID, utilisateur_2: user_2_ID},
             {utilisateur_1: user_2_ID, utilisateur_2: user_1_ID}
