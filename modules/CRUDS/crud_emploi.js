@@ -6,7 +6,7 @@ var Class = require('../../models/emploi').model;
 
 router.post('/create', (req, res) => {
     let new_emploi = new Class(req.body.emploi);
-    console.log(req.body);
+
     new_emploi.save().then(result => res.json({
         status: 1,
         data: {

@@ -157,6 +157,26 @@ router.post('/addEtudiantToFiliere', (req, res) => {
         }
     }));
 
-})
+});
 
+router.get('/getEtudiantsByFiliere', (req, res) => {
+    var filiereID = req.filiereID;
+    Etudiant.find({etu_filiere:filiereID})
+        .then(result => {
+
+                    res.json({
+                        status: 1,
+                        data: {
+                            etudiants: result
+                        }
+                    })
+
+        }).catch(err => res.json({
+        status: 0,
+        error: {
+            message: err
+        }
+    }));
+
+});
 module.exports = router;
