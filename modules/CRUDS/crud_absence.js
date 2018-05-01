@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const md5 = require('md5');
 
+var NotificationManager = require('../gestionNotification.module');
+
 var Class = require('../../models/absence').model;
 
 router.post('/create', (req, res) => {
@@ -13,6 +15,7 @@ router.post('/create', (req, res) => {
         current_absence.etudiant = etudiant;
 
         promises.push(current_absence.save());
+        NotificationManager.sendNotification("ABSENCE",current_absence,etudiant);
 
     });
 
@@ -92,7 +95,7 @@ router.get('/getAllAbsence', (req, res) => {
         .then(result => res.json({
             status: 1,
             data: {
-                matieres: result
+                absences: result
             }
         })).catch(err => res.json({
         status: 0,
@@ -102,5 +105,23 @@ router.get('/getAllAbsence', (req, res) => {
     }));
 
 })
+router.get('/getAllAbsencesByUserID', (req, res) => {
+    let page = Number(req.query.page - 1);
+    let limit = Number(req.query.limit);
+    let userID = req.query.userID;
 
+    Class.find({etudiant:userID}).limit(limit).skip(page * limit)
+        .then(result => res.json({
+            status: 1,
+            data: {
+                absences: result
+            }
+        })).catch(err => res.json({
+        status: 0,
+        error: {
+            message: err
+        }
+    }));
+
+})
 module.exports = router;

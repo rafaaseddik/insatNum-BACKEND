@@ -160,14 +160,13 @@ router.post('/addEtudiantToFiliere', (req, res) => {
 });
 
 router.get('/getEtudiantsByFiliere', (req, res) => {
-    var filiereID = req.filiereID;
-    Etudiant.find({etu_filiere:filiereID})
-        .then(result => {
-
+    var filiereID = req.query.filiereID;
+    Etudiant.find({etu_filiere:filiereID,type:"ETUDIANT"})
+        .then(etu => {
                     res.json({
                         status: 1,
                         data: {
-                            etudiants: result
+                            etudiants: etu
                         }
                     })
 

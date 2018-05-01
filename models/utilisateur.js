@@ -13,7 +13,7 @@ var UtilisateurSchema = new Schema({
     num_cin:String,
     adresse:String,
     creation_date:{type:Date,default:Date.now()},
-    img_url:{type:String,default:null},
+    img_url:{type:String,default:"https://i.imgur.com/1PyBTYl.png"},
     type:{type:String,enum:['ETUDIANT','ENSEIGNANT','EMPLOYE']},
     ens_grade:String,
     ens_type_contrat:{type:String,enum:['CONTRACTUEL','VACATAIRE','EXPERT','AUTRE']},
