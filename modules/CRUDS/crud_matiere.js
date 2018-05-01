@@ -3,7 +3,7 @@ const router = express.Router();
 const md5 = require('md5');
 
 var Class = require('../../models/matiere').model;
-
+var Utilisateur = require('../../models/utilisateur').model;
 
 
 router.post('/create',(req,res)=>{
@@ -88,6 +88,41 @@ router.get('/getAllMatieres',(req,res)=>{
     }));
 
 })
+router.post('/addMatiereToEnseignant',(req,res)=>{
+    var enseignantID = req.body.payload.enseignantID;
+    var matiereID = req.body.payload.matiereID;
+    Utilisateur.findById(enseignantID,{},{autopopulate:false}).then(result => {
+        if (result == null) {
+            res.json({
+                status: 2,
+                message: "l'ID de l'enseignant fourni est invalide"
+            })
+            res.end();
+        }else{
+                if(result.ens_liste_matieres.indexOf(matiereID)==-1){
+                    result.ens_liste_matieres.push(matiereID);
+                }
 
+            Utilisateur(result).populate("ens_liste_matieres").save({autopopulate:true}).then(created => {
+                res.json({
+                    status: 1,
+                    data: {
+                        user: created
+                    }
+                })
+            }).catch(err => res.json({
+                status: 0,
+                error: {
+                    message: err
+                }
+            }));
+        }
+    }).catch(err => res.json({
+        status: 0,
+        error: {
+            message: err
+        }
+    }));
+})
 
 module.exports = router;

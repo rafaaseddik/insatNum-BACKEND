@@ -10,4 +10,4 @@ var FiliereSchema = new Schema({
 module.exports = {
     model:mongoose.model('Filiere',FiliereSchema),
     schema : FiliereSchema
-}
+};

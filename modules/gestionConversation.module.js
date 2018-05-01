@@ -126,7 +126,7 @@ router.get('/getConversationByUsers', (req, res) => {
                     status:1,
                     data:{
                         conversation:{
-                            messgages:[]
+                            messages:[]
                         }
                     }
                 })
