@@ -36,7 +36,20 @@ router.post('/send', (req, res) => {
                     content: payload.content
                 }
             })
-            conversation.save().then(result => res.json(result)).catch(err => handle_error(err, res))
+            conversation.save().then(result => {
+                Conversation.findById(result._id).then(result3=>{
+                    res.json({
+                        status: 1,
+                        data: {
+                            conversation: result3
+                        }
+                    });
+                }).catch(err => res.json({
+                    status: 0,
+                    error: {
+                        message: err
+                    }}));
+            }).catch(err => handle_error(err, res))
         }
         else {
             Conversation.findOneAndUpdate({_id: result._id},
@@ -62,12 +75,19 @@ router.post('/send', (req, res) => {
                         handle_error(err2, res);
                     }
                     else {
-                        res.json({
-                            status: 1,
-                            data: {
-                                conversation: result2
-                            }
-                        });
+                        Conversation.findById(result2._id).then(result3=>{
+                            res.json({
+                                status: 1,
+                                data: {
+                                    conversation: result3
+                                }
+                            });
+                        }).catch(err => res.json({
+                            status: 0,
+                            error: {
+                                message: err
+                            }}));
+
                     }
                 })
 

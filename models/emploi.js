@@ -10,7 +10,7 @@ var EmploiSchema = new Schema({
     date_debut:Date,
     date_expiration:Date,
     groupe:{type:Schema.Types.ObjectId,ref:"Filiere",autopopulate:true},
-    cases : [CaseEmploiSchema]
+    cases : [{type:Schema.Types.ObjectId,ref:"CaseEmploi",autopopulate:true}]
 
 });
 EmploiSchema.plugin(autopopulate);

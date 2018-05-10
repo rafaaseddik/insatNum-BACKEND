@@ -3,6 +3,7 @@ const router = express.Router();
 const md5 = require('md5');
 
 var Class = require('../../models/emploi').model;
+var CaseEmploi= require('../../models/caseEmploi').model;
 var Utilisateur = require('../../models/utilisateur').model;
 
 router.post('/create', (req, res) => {
@@ -107,20 +108,29 @@ router.get('/getAllEmplois', (req, res) => {
 })
 
 router.post('/addCaseToEmploi', (req, res) => {
-    let case_emploi = req.body.payload.case_emploi;
+    let case_emploi = new CaseEmploi(req.body.payload.case_emploi);
     let emploi_id = req.body.payload.emploiID;
 
-    Class.findOneAndUpdate({_id: emploi_id}, {
-        $push: {
-            cases: case_emploi
-        }
-    }, {new: true}).then(result => {
-        res.json({
-            status: 1,
-            data: {
-                emploi: result
+    case_emploi.save().then(_case=>{
+
+        Class.findOneAndUpdate({_id: emploi_id}, {
+            $push: {
+                cases: case_emploi._id
             }
-        });
+        }, {new: true}).then(result => {
+            res.json({
+                status: 1,
+                data: {
+                    emploi: result
+                }
+            });
+        }).catch(err => res.json({
+            status: 0,
+            error: {
+                message: err
+            }
+        }));
+
     }).catch(err => res.json({
         status: 0,
         error: {
@@ -129,16 +139,14 @@ router.post('/addCaseToEmploi', (req, res) => {
     }));
 
 
+
 });
 router.get('/getEtudiantsByCaseEmploiID', (req, res) => {
     var caseEmploiID = req.query.caseEmploiID;
 
     Class.findOne({
-        cases: {
-            $elemMatch:
-                {_id:caseEmploiID}
+        cases: caseEmploiID
 
-        }
     }).then(emploi=>{
         if(emploi==null){
             res.json({

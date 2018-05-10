@@ -4,7 +4,7 @@ const app = express();
 app.use(bodyparser.json())
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/insat_numerique');
+mongoose.connect('mongodb://root:khalilrafaa12@ds119090.mlab.com:19090/insat_numerique');
 mongoose.Promise = global.Promise;
 
 const routing = require('./routing');

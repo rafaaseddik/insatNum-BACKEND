@@ -21,6 +21,11 @@ router.get('/getCurrentCaseEmploiByFiliere',(req,res)=>{
         semestre:core.getSemestre(),
         groupe:filiereID
     }).then(emploi=>{
+        if(emploi==null){
+            res.json({
+                status:2,
+                message:"Cette filiere n'a pas d'emplois"});
+        }
         var now = new Date();
         var current_time = {
             hour:now.getHours(),
@@ -28,7 +33,7 @@ router.get('/getCurrentCaseEmploiByFiliere',(req,res)=>{
         }
         var current_case = null;
         var cases = emploi.cases.find((_case)=>{
-            return (_case.semaine==core.getSemaine(),_case.semaine=="TOUS")&&(_case.jour==core.getDay())&&core.date_isGreater(current_time,_case.heure_debut)&&core.date_isGreater(_case.heure_fin,current_time);
+            return (_case.semaine==core.getSemaine()||_case.semaine=="TOUS")&&(_case.jour==core.getDay())&&core.date_isGreater(current_time,_case.heure_debut)&&core.date_isGreater(_case.heure_fin,current_time);
         })
         res.json({
             status:1,
@@ -49,7 +54,6 @@ router.get('/getCurrentCaseEmploiByEnseignatID',(req,res)=>{
         annee_scolaire:core.getAnneeScolaire(),
         semestre:core.getSemestre()
     }).then(emploi=>{
-        console.log(emploi);
         var now = new Date();
         var current_time = {
             hour:now.getHours(),
