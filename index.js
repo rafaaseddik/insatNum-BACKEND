@@ -8,8 +8,8 @@ mongoose.connect('mongodb://root:khalilrafaa12@ds119090.mlab.com:19090/insat_num
 mongoose.Promise = global.Promise;
 
 const routing = require('./routing');
-
-app.listen("3000",()=>{
+var port = process.env.PORT || 8080;
+app.listen(port,()=>{
     console.log("server started")
 });
 app.use((req,res,next)=>{
