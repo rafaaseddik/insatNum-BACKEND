@@ -19,3 +19,9 @@ app.use((req,res,next)=>{
     next();
 })
 app.use(routing);
+app.get('/',(req,res)=>{
+    res.json({
+        status:1,
+        message:"Server Running"
+    })
+})
