@@ -59,11 +59,11 @@ router.get('/getEmploiByFiliereId', (req, res) => {
     var filiereID = req.query.id;
     var semestre = req.query.semestre;
 
-    Class.findOne({groupe: filiereID, semestre: semestre})
+    Class.findOne({groupe:filiereID,semestre:semestre})
         .then(result => res.json({
             status: 1,
             data: {
-                matiere: result
+                emploi: result
             }
         })).catch(err => res.json({
         status: 0,
